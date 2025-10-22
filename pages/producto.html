@@ -6,6 +6,55 @@
   <link rel="icon" type="image/x-icon" href="../img/favicon.ico">
   <title>Detalle del Producto - Lubricentro R/18</title>
   <link rel="stylesheet" href="../css/styles.css">
+  
+  <!-- Slick Carousel CSS -->
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
+  
+  <style>
+    /* Estilos para galería de imágenes */
+    .product-gallery {
+      margin-bottom: 1rem;
+    }
+    
+    .product-gallery .slick-slide img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    
+    .product-thumbnails {
+      margin-top: 1rem;
+    }
+    
+    .product-thumbnails .slick-slide {
+      padding: 0 5px;
+      cursor: pointer;
+      opacity: 0.6;
+      transition: opacity 0.3s;
+    }
+    
+    .product-thumbnails .slick-slide.slick-current {
+      opacity: 1;
+    }
+    
+    .product-thumbnails .slick-slide:hover {
+      opacity: 1;
+    }
+    
+    .product-thumbnails .slick-slide img {
+      border: 2px solid transparent;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+    }
+    
+    .product-thumbnails .slick-slide.slick-current img {
+      border-color: #1A3A5F;
+    }
+    
+    .slick-prev:before, .slick-next:before {
+      color: #1A3A5F;
+    }
+  </style>
 </head>
 <body>
 
@@ -49,10 +98,18 @@
   <div class="container">
     <div class="product-detail-grid">
       
-      <!-- Imagen del producto -->
+      <!-- Galería de imágenes con Slick -->
       <div class="product-image-section">
         <div class="product-image-container">
-          <img id="imagen-producto" src="" alt="Producto" class="product-image-large">
+          <!-- Carrusel principal -->
+          <div class="product-gallery" id="product-gallery">
+            <!-- Las imágenes se cargarán dinámicamente -->
+          </div>
+          
+          <!-- Miniaturas -->
+          <div class="product-thumbnails" id="product-thumbnails">
+            <!-- Las miniaturas se cargarán dinámicamente -->
+          </div>
         </div>
       </div>
 
@@ -107,92 +164,4 @@
       
       <div class="products-grid-small">
         <div class="product-card-small">
-          <img src="../img/aceite_semi.jpg" alt="Aceite Semisintético">
-          <h4>Aceite Semisintético</h4>
-          <p class="product-price">$12.800</p>
-        </div>
-        <div class="product-card-small">
-          <img src="../img/filtro_aceite.jpg" alt="Filtro de Aceite">
-          <h4>Filtro de Aceite</h4>
-          <p class="product-price">$2.300</p>
-        </div>
-        <div class="product-card-small">
-          <img src="../img/filtro_aire.jpg" alt="Filtro de Aire">
-          <h4>Filtro de Aire</h4>
-          <p class="product-price">$3.450</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="back-link">
-      <a href="listado_box.html" class="link-back">← Volver al Catálogo</a>
-    </div>
-  </div>
-</main>
-
-<!-- FOOTER -->
-<footer>
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>🔧 Lubricentro R/18</h3>
-        <p>Tu aliado en el mantenimiento automotriz desde 2010</p>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Enlaces Rápidos</h4>
-        <ul class="footer-links">
-          <li><a href="../index.html">Inicio</a></li>
-          <li><a href="listado_box.html">Productos</a></li>
-          <li><a href="comprar.html">Comprar</a></li>
-        </ul>
-      </div>
-      
-      <div class="footer-section">
-        <h4>Contacto</h4>
-        <ul class="footer-links">
-          <li>Tel: (011) 4567-8900</li>
-          <li>info@lubricentror18.com</li>
-          <li>Av. Principal 123, Ciudad</li>
-        </ul>
-      </div>
-    </div>
-    
-    <div class="footer-bottom">
-      <p>&copy; 2025 Lubricentro R/18. Todos los derechos reservados.</p>
-    </div>
-  </div>
-</footer>
-
-<script src="../js/app.js"></script>
-<script>
-const productos = [
-  { id: "MOT001", nombre: "Aceite Motor Mineral Shell 20W-50 4L", descripcion: "Aceite mineral de alta calidad para motores nafteros. Proporciona excelente protección contra el desgaste y mantiene el motor limpio.", detalles: ["Viscosidad: 20W-50", "Marca: Shell", "Presentación: 4L", "Tipo: Mineral", "Ideal para climas cálidos"], precio: "$8.500", imagen: "../img/aceite_mineral.jpg" },
-  { id: "MOT002", nombre: "Aceite Motor Semisintético Mobil 10W-40 4L", descripcion: "Lubricante semisintético de excelente protección y rendimiento. Combina lo mejor de aceites minerales y sintéticos.", detalles: ["Viscosidad: 10W-40", "Marca: Mobil", "Presentación: 4L", "Tipo: Semisintético", "Protección superior"], precio: "$12.800", imagen: "../img/aceite_semi.jpg" },
-  { id: "MOT003", nombre: "Aceite Motor Sintético Castrol EDGE 5W-30 4L", descripcion: "Lubricante sintético premium que maximiza el rendimiento del motor. Tecnología avanzada para máxima protección.", detalles: ["Viscosidad: 5W-30", "Marca: Castrol", "Presentación: 4L", "Tipo: Sintético", "Tecnología Fluid Titanium"], precio: "$18.900", imagen: "../img/castrol.jpg" },
-  { id: "FIL001", nombre: "Filtro de Aceite Mann Filter", descripcion: "Filtro de alta eficiencia que garantiza la pureza del aceite. Fabricado con materiales de primera calidad.", detalles: ["Marca: Mann Filter", "Tipo: Filtro de Aceite", "Unidad: 1", "Alta capacidad de filtrado", "Diseño original"], precio: "$2.300", imagen: "../img/filtro_aceite.jpg" },
-  { id: "FIL002", nombre: "Filtro de Aire Bosch", descripcion: "Filtro que mejora el rendimiento del motor y reduce el consumo. Tecnología alemana de precisión.", detalles: ["Marca: Bosch", "Tipo: Filtro de Aire", "Unidad: 1", "Mayor flujo de aire", "Larga durabilidad"], precio: "$3.450", imagen: "../img/filtro_aire.jpg" },
-  { id: "FIL003", nombre: "Filtro de Combustible Fram", descripcion: "Filtro que evita impurezas en el sistema de combustible. Protege inyectores y sistema de alimentación.", detalles: ["Marca: Fram", "Tipo: Filtro de Combustible", "Unidad: 1", "Filtración de alta eficiencia", "Instalación sencilla"], precio: "$2.800", imagen: "../img/filtro_combustible.jpg" }
-];
-
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
-const producto = productos.find(p => p.id === id) || productos[0];
-
-document.getElementById("breadcrumb-nombre").textContent = producto.nombre;
-document.getElementById("nombre-producto").textContent = producto.nombre;
-document.getElementById("codigo-producto").textContent = `Código: ${producto.id}`;
-document.getElementById("descripcion-producto").textContent = producto.descripcion;
-document.getElementById("precio-producto").textContent = producto.precio;
-document.getElementById("imagen-producto").src = producto.imagen;
-document.getElementById("imagen-producto").alt = producto.nombre;
-
-const lista = document.getElementById("detalles-lista");
-producto.detalles.forEach(d => {
-  const li = document.createElement("li");
-  li.innerHTML = `<span class="spec-icon">✓</span> ${d}`;
-  lista.appendChild(li);
-});
-</script>
-</body>
-</html>
+          <img src="../img/aceite_semi.jpg" alt="Aceite
