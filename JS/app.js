@@ -417,3 +417,209 @@ if (menuToggle && navMenu) {
     });
 }
 
+// Configuración de Slick Carousel para index.html
+$(document).ready(function(){
+  // Carrusel de productos
+  $('.products-carousel').slick({
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false
+        }
+      }
+    ]
+  });
+
+  // Carrusel de testimonios
+  $('.testimonials-carousel').slick({
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false
+        }
+      }
+    ]
+  });
+});
+
+// Configuración de Slick Carousel para listado_box.html
+$(document).ready(function(){
+  $('.product-slider').slick({
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    dots: true,
+    autoplay: true,
+    autoplaySpeed: 3500,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 1
+        }
+      },
+      {
+        breakpoint: 768,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          arrows: false
+        }
+      }
+    ]
+  });
+});
+
+// ============================================
+// CONFIGURACIÓN SLICK CAROUSEL
+// ============================================
+
+// Configuración de Slick Carousel para index.html
+function inicializarCarouselIndex() {
+  if ($('.products-carousel').length) {
+    $('.products-carousel').slick({
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 3000,
+      arrows: true,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false
+          }
+        }
+      ]
+    });
+  }
+
+  if ($('.testimonials-carousel').length) {
+    $('.testimonials-carousel').slick({
+      dots: true,
+      infinite: true,
+      speed: 500,
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      autoplay: true,
+      autoplaySpeed: 4000,
+      arrows: true,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false
+          }
+        }
+      ]
+    });
+  }
+}
+
+// Configuración de Slick Carousel para listado_box.html
+function inicializarCarouselCatalogo() {
+  if ($('.product-slider').length) {
+    $('.product-slider').slick({
+      slidesToShow: 3,
+      slidesToScroll: 1,
+      arrows: true,
+      dots: true,
+      autoplay: true,
+      autoplaySpeed: 3500,
+      responsive: [
+        {
+          breakpoint: 1024,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: false
+          }
+        }
+      ]
+    });
+  }
+}
+
+// Inicializar carruseles cuando el DOM esté listo y jQuery cargado
+function inicializarCarruseles() {
+  if (window.jQuery) {
+    inicializarCarouselIndex();
+    inicializarCarouselCatalogo();
+  } else {
+    // Esperar a que jQuery se cargue
+    setTimeout(inicializarCarruseles, 100);
+  }
+}
+
+// Agregar inicialización al DOMContentLoaded existente
+document.addEventListener('DOMContentLoaded', function() {
+  // ... tu código existente ...
+  
+  // Inicializar carruseles después de un breve delay para asegurar que jQuery esté listo
+  setTimeout(inicializarCarruseles, 500);
+});
