@@ -930,3 +930,39 @@ a:hover, button:hover {
         justify-content: center;
     }
 }
+.empty-state, .error-state {
+    text-align: center;
+    padding: 60px 20px;
+    color: #666;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin: 2rem 0;
+}
+
+.error-state {
+    color: #d63031;
+    border-left: 4px solid #d63031;
+}
+
+.error-detail {
+    font-size: 0.9em;
+    color: #999;
+    margin: 10px 0 20px;
+}
+
+.empty-state .btn, .error-state .btn {
+    margin: 5px;
+    display: inline-block;
+}
+        .producto-detalle { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .producto-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .precio { font-size: 2em; color: #e74c3c; font-weight: bold; margin: 20px 0; }
+        .btn-agregar { background: #3498db; color: white; padding: 15px 30px; border: none; border-radius: 5px; cursor: pointer; }
+    
+    /* QUITAR BOTÓN VER DETALLES FLOTANTE */
+.ver-detalles-flotante, 
+.btn-ver-detalles,
+.floating-details-btn {
+    display: none !important;
+}

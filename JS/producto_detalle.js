@@ -18,7 +18,7 @@ function obtenerIdProducto() {
     return params.get('id');
 }
 
-// Detectar ruta base
+// RUTA API CORRECTA - SOLO UNA FUNCIÓN
 function obtenerRutaAPI() {
     return '../api/productos.php';
 }
@@ -99,7 +99,7 @@ async function cargarDetallesProducto() {
     document.getElementById('precio-producto').textContent = '$' + parseFloat(producto.precio).toFixed(2);
     document.getElementById('descripcion-producto').textContent = producto.descripcion;
     
-    // Cargar galería de imágenes
+    // RUTA DE IMAGEN CORRECTA - SOLO UN "../"
     const galeriaHTML = `
         <div>
             <img src="../${producto.imagen_principal}" alt="${producto.nombre}" style="width: 100%; border-radius: 8px;">
@@ -161,6 +161,8 @@ function cargarProductosRelacionados(productos) {
     productosAMostrar.forEach(producto => {
         const precioFormato = parseFloat(producto.precio).toFixed(2);
         console.log('Renderizando producto:', producto.nombre, 'ID:', producto.id);
+        
+        // RUTA DE IMAGEN CORRECTA - SOLO UN "../"
         html += `
             <div class="product-card-small">
                 <img src="../${producto.imagen_principal}" alt="${producto.nombre}" onerror="this.src='../img/placeholder.jpg'">

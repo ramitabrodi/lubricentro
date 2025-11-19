@@ -9,6 +9,7 @@
 </head>
 <body>
 
+<a href="producto.php?id=${producto.id}">Ver Detalles</a>
 <!-- HEADER -->
 <header>
   <div class="nav-container">

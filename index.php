@@ -443,32 +443,6 @@
   </div>
 </section>
 
-<!-- SECCIÓN CARRUSEL DE PRODUCTOS -->
-<section class="section">
-  <div class="container">
-    <h2 class="section-title">Productos Destacados</h2>
-    <div id="carrusel-productos" style="min-height: 400px; display: flex; align-items: center; justify-content: center; color: #999;">
-      <p>Cargando productos...</p>
-    </div>
-  </div>
-</section>
-
-<!-- SECCIÓN LISTA DE PRODUCTOS -->
-<section class="section" style="background-color: #f9f9f9;">
-  <div class="container">
-    <h2 class="section-title">Catálogo de Productos</h2>
-    <div id="lista-productos" style="min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
-      <p>Cargando catálogo...</p>
-    </div>
-    <div style="text-align: center; margin-top: 40px;">
-<<<<<<< HEAD:index.php
-      <a href="pages/admin_productos.php" class="btn" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px;">Agregar Producto</a>
-=======
-      <a href="pages/admin_productos.html" class="btn" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px;">Agregar Producto</a>
->>>>>>> 0e30cedfb2c0af2541cda517b60237f5e50d940c:index.html
-    </div>
-  </div>
-</section>
 
 <!-- FOOTER -->
 <footer>
@@ -584,9 +558,5 @@ $(document).ready(function(){
     inicializarListaProductos();
   });
 </script>
-<<<<<<< HEAD:index.php
-=======
-
->>>>>>> 0e30cedfb2c0af2541cda517b60237f5e50d940c:index.html
 </body>
 </html>
