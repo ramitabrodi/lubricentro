@@ -461,7 +461,11 @@
       <p>Cargando catálogo...</p>
     </div>
     <div style="text-align: center; margin-top: 40px;">
+<<<<<<< HEAD:index.php
       <a href="pages/admin_productos.php" class="btn" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px;">Agregar Producto</a>
+=======
+      <a href="pages/admin_productos.html" class="btn" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px;">Agregar Producto</a>
+>>>>>>> 0e30cedfb2c0af2541cda517b60237f5e50d940c:index.html
     </div>
   </div>
 </section>
@@ -580,5 +584,9 @@ $(document).ready(function(){
     inicializarListaProductos();
   });
 </script>
+<<<<<<< HEAD:index.php
+=======
+
+>>>>>>> 0e30cedfb2c0af2541cda517b60237f5e50d940c:index.html
 </body>
 </html>
