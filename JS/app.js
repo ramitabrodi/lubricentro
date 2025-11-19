@@ -124,6 +124,10 @@ function mostrarCarrito() {
             itemDiv.className = 'cart-item';
             const precioMostrar = typeof item.precio === 'string' ? item.precio : `$${item.precio}`;
             itemDiv.innerHTML = `
+                <div class="cart-item-checkbox">
+                    <input type="checkbox" class="item-checkbox" data-index="${index}" id="check-${index}">
+                    <label for="check-${index}"></label>
+                </div>
                 <div class="cart-item-info">
                     <h4>${item.nombre}</h4>
                     <p>Cantidad: ${item.cantidad || 1}</p>
@@ -140,6 +144,109 @@ function mostrarCarrito() {
             totalDiv.style.display = 'block';
         }
         if (actions) actions.style.display = 'flex';
+        
+        // Agregar event listeners a checkboxes
+        agregarEventosCheckboxes();
+    }
+}
+
+// Función para agregar eventos a los checkboxes
+function agregarEventosCheckboxes() {
+    const checkboxes = document.querySelectorAll('.item-checkbox');
+    const selectAllBtn = document.getElementById('select-all-btn');
+    const finalizarBtn = document.getElementById('finalizar-compra');
+    const btnVaciar = document.getElementById('clear-cart');
+    
+    // Evento para cada checkbox
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', () => {
+            actualizarBotones();
+        });
+    });
+    
+    // Botón "Seleccionar Todo"
+    if (selectAllBtn) {
+        selectAllBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            checkboxes.forEach(cb => cb.checked = !allChecked);
+            selectAllBtn.textContent = allChecked ? '✓ Seleccionar Todo' : '✓ Deseleccionar Todo';
+            actualizarBotones();
+        });
+    }
+    
+    // Botón "Finalizar Compra"
+    if (finalizarBtn) {
+        finalizarBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const seleccionados = Array.from(checkboxes).filter(cb => cb.checked);
+            
+            if (seleccionados.length === 0) {
+                mostrarNotificacion('Por favor selecciona al menos un producto', 'error');
+                return;
+            }
+            
+            // Guardar productos seleccionados en sessionStorage
+            const productosSeleccionados = seleccionados.map(cb => {
+                const index = parseInt(cb.dataset.index);
+                return carrito[index];
+            });
+            
+            sessionStorage.setItem('carritoParaCompra', JSON.stringify(productosSeleccionados));
+            sessionStorage.setItem('compraDesdeCarrito', 'true');
+            
+            // Redirigir a compra
+            window.location.href = 'comprar.php';
+        });
+    }
+    
+    // Botón "Vaciar Carrito"
+    if (btnVaciar) {
+        btnVaciar.addEventListener('click', (e) => {
+            e.preventDefault();
+            vaciarCarrito();
+        });
+    }
+}
+
+// Actualizar visibilidad de botones según selección
+function actualizarBotones() {
+    const checkboxes = document.querySelectorAll('.item-checkbox');
+    const finalizarBtn = document.getElementById('finalizar-compra');
+    const selectAllBtn = document.getElementById('select-all-btn');
+    const totalDiv = document.getElementById('cart-total');
+    
+    const haySeleccionados = Array.from(checkboxes).some(cb => cb.checked);
+    
+    if (finalizarBtn) {
+        finalizarBtn.style.display = haySeleccionados ? 'block' : 'none';
+    }
+    
+    const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+    if (selectAllBtn) {
+        selectAllBtn.textContent = allChecked && haySeleccionados ? '✓ Deseleccionar Todo' : '✓ Seleccionar Todo';
+    }
+    
+    // Actualizar total de solo los productos seleccionados
+    if (totalDiv && haySeleccionados) {
+        let totalSeleccionados = 0;
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                const index = parseInt(checkbox.dataset.index);
+                const item = carrito[index];
+                if (item) {
+                    const precio = typeof item.precio === 'string' 
+                        ? parseFloat(item.precio.replace(/[^\d]/g, '')) || 0
+                        : item.precio || 0;
+                    totalSeleccionados += precio * (item.cantidad || 1);
+                }
+            }
+        });
+        totalDiv.textContent = `Total: $${totalSeleccionados.toFixed(2)}`;
+    } else if (totalDiv) {
+        // Si no hay seleccionados, mostrar total de todos
+        const total = calcularTotal();
+        totalDiv.textContent = `Total: $${total.toFixed(2)}`;
     }
 }
 
@@ -421,10 +528,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 infoCarrito.style.display = 'none';
             }
             
-            // Redirigir después de 2 segundos
-            setTimeout(() => {
-                window.location.href = '../index.html';
-            }, 2000);
+            // QUEDARSE EN LA MISMA PÁGINA - NO REDIRIGIR
+            // Scroll al inicio para ver el mensaje de éxito
+            window.scrollTo(0, 0);
         });
     }
 });

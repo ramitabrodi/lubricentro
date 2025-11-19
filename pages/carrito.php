@@ -32,20 +32,19 @@
   </div>
 </header>
 
-<!-- BREADCRUMB -->
-<section class="breadcrumb-section">
-  <div class="container">
-    <div class="breadcrumb">
-      <a href="../index.php">Inicio</a> → <span>Carrito de Compras</span>
-    </div>
+<!-- BREADCRUMB - ELIMINADO -->
+
+<!-- HERO SECTION DEL CARRITO -->
+<section class="cart-hero">
+  <div class="cart-hero-content">
+    <h2 class="cart-hero-title">🛒 Tu Carrito</h2>
+    <p class="cart-hero-subtitle">Revisa tus productos antes de finalizar la compra</p>
   </div>
 </section>
 
 <!-- CARRITO -->
 <main class="cart-page">
   <div class="container">
-    <h2 class="section-title">🛒 Tu Carrito</h2>
-    <p class="section-subtitle">Revisa tus productos antes de finalizar la compra</p>
 
     <div class="cart-content">
       <div class="cart-items-section">
@@ -77,12 +76,11 @@
           </div>
           
           <div class="cart-actions-summary" id="cart-actions">
-<<<<<<< HEAD
-            <a href="comprar.php" class="btn btn-primary btn-block" id="finalizar-compra">
-=======
-            <a href="checkout.php" class="btn btn-primary btn-block" id="finalizar-compra">
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
-              Finalizar Compra
+            <button id="select-all-btn" class="btn btn-outline btn-block">
+              ✓ Seleccionar Todo
+            </button>
+            <a href="comprar.php" id="finalizar-compra" class="btn btn-primary btn-block" style="display:none;">
+              Finalizar Compra (Seleccionados)
             </a>
             <button id="clear-cart" class="btn btn-outline-danger btn-block">
               Vaciar Carrito

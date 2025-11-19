@@ -9,10 +9,6 @@
 </head>
 <body>
 
-<<<<<<< HEAD
-=======
-<a href="producto.php?id=${producto.id}">Ver Detalles</a>
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
 <!-- HEADER -->
 <header>
   <div class="nav-container">
@@ -36,21 +32,19 @@
   </div>
 </header>
 
-<!-- BREADCRUMB -->
-<section class="breadcrumb-section">
-  <div class="container">
-    <div class="breadcrumb">
-      <a href="../index.php">Inicio</a> → <span>Catálogo de Productos</span>
-    </div>
+<!-- BREADCRUMB - ELIMINADO -->
+
+<!-- HERO SECTION DEL CATÁLOGO -->
+<section class="catalog-hero">
+  <div class="catalog-hero-content">
+    <h2 class="catalog-title">Catálogo de Productos</h2>
+    <p class="catalog-subtitle">Encuentra los mejores productos para tu vehículo</p>
   </div>
 </section>
 
 <!-- PRODUCTOS -->
 <main>
   <div class="container">
-    <h2 class="section-title">Catálogo de Productos</h2>
-    <p class="section-subtitle">Encuentra los mejores productos para tu vehículo</p>
-
     <div id="catalogo-dinamico">
       <p style="text-align: center; padding: 40px; color: #999;">Cargando catálogo...</p>
     </div>

@@ -1,17 +1,6 @@
 // Obtener productos desde API
 async function cargarProductosCatalogo() {
     try {
-<<<<<<< HEAD
-        const response = await fetch('../api/productos.php?action=listar');
-        const data = await response.json();
-        
-        if (data.success && data.data) {
-            mostrarProductosEnCatalogo(data.data);
-        }
-    } catch (error) {
-        console.error('Error cargando productos:', error);
-        document.getElementById('catalogo-dinamico').innerHTML = '<p>Error al cargar productos</p>';
-=======
         console.log('🔄 Iniciando carga de productos desde catálogo...');
         
         const response = await fetch('../api/productos.php?action=listar');
@@ -31,8 +20,7 @@ async function cargarProductosCatalogo() {
         
     } catch (error) {
         console.error('❌ Error cargando productos:', error);
-        mostrarErrorEnCatalogo(error.message);
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
+        mostrarErrorEnCatalogo(error.message || String(error));
     }
 }
 
@@ -41,64 +29,37 @@ function mostrarProductosEnCatalogo(productos) {
     const container = document.getElementById('catalogo-dinamico');
     
     if (!productos || productos.length === 0) {
-<<<<<<< HEAD
-        container.innerHTML = '<p>No hay productos disponibles</p>';
-=======
         container.innerHTML = `
             <div class="empty-state">
                 <p>😔 No hay productos disponibles en este momento</p>
                 <a href="comprar.php" class="btn btn-primary">Realizar pedido especial</a>
             </div>
         `;
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
         return;
     }
     
     let html = '<div class="products-grid">';
     
-<<<<<<< HEAD
-    productos.forEach((producto, index) => {
-        const badge = producto.destacado === '1' ? '<div class="product-badge">Destacado</div>' : '';
-        const premium = producto.premium === '1' ? '<div class="product-badge premium">Premium</div>' : '';
-=======
     productos.forEach((producto) => {
         const badge = producto.destacado == 1 ? '<div class="product-badge">Destacado</div>' : '';
         const premium = producto.premium == 1 ? '<div class="product-badge premium">Premium</div>' : '';
         
-        // Manejar imagen - corregir ruta
         const imagenSrc = producto.imagen_principal && producto.imagen_principal !== '' 
             ? `../${producto.imagen_principal}`
             : '../img/placeholder-producto.jpg';
         
-        // Formatear precio
         const precioFormateado = parseFloat(producto.precio).toLocaleString('es-AR');
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
         
         html += `
             <div class="product-card">
                 ${badge}${premium}
-<<<<<<< HEAD
-                <img src="../${producto.imagen_principal}" alt="${producto.nombre}">
-                <div class="product-info">
-                    <h4>${producto.nombre}</h4>
-                    <p class="product-brand">${producto.marca} - ${producto.viscosidad}</p>
-                    <div class="product-footer">
-                        <span class="product-price">$${parseFloat(producto.precio).toLocaleString('es-AR')}</span>
-                        <button onclick="agregarAlCarrito({id:'${producto.id}', nombre:'${producto.nombre}', precio:${producto.precio}})" class="btn-add-cart" title="Agregar al carrito">
-=======
-                <img src="${imagenSrc}" alt="${producto.nombre}" 
-                     onerror="this.src='../img/placeholder-producto.jpg'">
+                <img src="${imagenSrc}" alt="${producto.nombre}" onerror="this.src='../img/placeholder-producto.jpg'">
                 <div class="product-info">
                     <h4>${producto.nombre}</h4>
                     <p class="product-brand">${producto.marca} - ${producto.viscosidad || 'N/A'}</p>
                     <div class="product-footer">
                         <span class="product-price">$${precioFormateado}</span>
-                        <button onclick="agregarAlCarrito({
-                            id: '${producto.id}', 
-                            nombre: '${producto.nombre}', 
-                            precio: ${producto.precio}
-                        })" class="btn-add-cart" title="Agregar al carrito">
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
+                        <button onclick="agregarAlCarrito({id: '${producto.id}', nombre: '${producto.nombre}', precio: ${producto.precio}})" class="btn-add-cart" title="Agregar al carrito">
                             <span>+</span>
                         </button>
                     </div>
@@ -110,9 +71,6 @@ function mostrarProductosEnCatalogo(productos) {
     
     html += '</div>';
     container.innerHTML = html;
-<<<<<<< HEAD
-=======
-    
     console.log(`✅ ${productos.length} productos cargados correctamente`);
 }
 
@@ -127,15 +85,10 @@ function mostrarErrorEnCatalogo(mensaje) {
             <a href="comprar.php" class="btn btn-outline">Comprar directamente</a>
         </div>
     `;
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
 }
 
 // Cargar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', () => {
-<<<<<<< HEAD
-    cargarProductosCatalogo();
-});
-=======
     console.log('🚀 DOM cargado, iniciando catálogo...');
     cargarProductosCatalogo();
 });
@@ -145,4 +98,3 @@ if (document.readyState === 'interactive' || document.readyState === 'complete')
     console.log('⚡ DOM ya listo, cargando catálogo...');
     cargarProductosCatalogo();
 }
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3

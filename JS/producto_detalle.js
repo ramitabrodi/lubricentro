@@ -1,16 +1,4 @@
-// ==== SISTEMA DE CARRITO ====
-let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-
-// Actualizar contador del carrito
-function actualizarContadorCarrito() {
-    const contadores = document.querySelectorAll("#cart-count");
-    if (contadores.length > 0) {
-        const totalItems = carrito.reduce((acc, item) => acc + (item.cantidad || 1), 0);
-        contadores.forEach(contador => {
-            contador.textContent = totalItems;
-        });
-    }
-}
+// ==== DETALLES DEL PRODUCTO ====
 
 // Obtener ID del producto desde la URL
 function obtenerIdProducto() {
@@ -18,11 +6,7 @@ function obtenerIdProducto() {
     return params.get('id');
 }
 
-<<<<<<< HEAD
-// Detectar ruta base
-=======
 // RUTA API CORRECTA - SOLO UNA FUNCIÓN
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
 function obtenerRutaAPI() {
     return '../api/productos.php';
 }
@@ -99,21 +83,19 @@ async function cargarDetallesProducto() {
     // Llenar datos del producto
     document.getElementById('codigo-producto').textContent = 'Código: ' + producto.codigo;
     document.getElementById('nombre-producto').textContent = producto.nombre;
-    document.getElementById('breadcrumb-nombre').textContent = producto.nombre;
+    const breadcrumb = document.getElementById('breadcrumb-nombre');
+    if (breadcrumb) breadcrumb.textContent = producto.nombre;
     document.getElementById('precio-producto').textContent = '$' + parseFloat(producto.precio).toFixed(2);
     document.getElementById('descripcion-producto').textContent = producto.descripcion;
     
-<<<<<<< HEAD
-    // Cargar galería de imágenes
-=======
     // RUTA DE IMAGEN CORRECTA - SOLO UN "../"
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
     const galeriaHTML = `
         <div>
             <img src="../${producto.imagen_principal}" alt="${producto.nombre}" style="width: 100%; border-radius: 8px;">
         </div>
     `;
-    document.getElementById('product-gallery').innerHTML = galeriaHTML;
+    const galleryEl = document.getElementById('product-gallery');
+    if (galleryEl) galleryEl.innerHTML = galeriaHTML;
     
     // Cargar especificaciones técnicas
     let especificacionesHTML = '';
@@ -125,12 +107,33 @@ async function cargarDetallesProducto() {
     especificacionesHTML += `<li><strong>Presentación:</strong> ${producto.presentacion}</li>`;
     especificacionesHTML += `<li><strong>Stock disponible:</strong> ${producto.stock} unidades</li>`;
     
-    document.getElementById('detalles-lista').innerHTML = especificacionesHTML;
+    const detallesLista = document.getElementById('detalles-lista');
+    if (detallesLista) detallesLista.innerHTML = especificacionesHTML;
     
     // Botón agregar al carrito
-    document.getElementById('btn-agregar').addEventListener('click', function() {
-        agregarAlCarrito(producto);
-    });
+    const btnAgregar = document.getElementById('btn-agregar');
+    if (btnAgregar) {
+        btnAgregar.addEventListener('click', function() {
+            agregarAlCarrito(producto);
+        });
+    }
+    
+    // Botón "Comprar Ahora"
+    const btnComprarAhora = document.getElementById('btn-comprar-ahora');
+    if (btnComprarAhora) {
+        btnComprarAhora.addEventListener('click', function() {
+            // Guardar el producto actual en sessionStorage para que comprar.php lo cargue
+            sessionStorage.setItem('productoParaComprar', JSON.stringify({
+                id: producto.id,
+                nombre: producto.nombre,
+                precio: producto.precio,
+                imagen_principal: producto.imagen_principal,
+                cantidad: 1
+            }));
+            // Redirigir a compra
+            window.location.href = 'comprar.php';
+        });
+    }
     
     // Cargar productos relacionados
     if (producto.categoria_id) {
@@ -140,7 +143,8 @@ async function cargarDetallesProducto() {
         cargarProductosRelacionados(productosRelacionados);
     } else {
         console.warn('El producto no tiene categoría_id');
-        document.getElementById('productos-relacionados').innerHTML = '<p>No hay productos relacionados disponibles</p>';
+        const relContainer = document.getElementById('productos-relacionados');
+        if (relContainer) relContainer.innerHTML = '<p>No hay productos relacionados disponibles</p>';
     }
 }
 
@@ -163,23 +167,21 @@ function cargarProductosRelacionados(productos) {
     }
     
     let html = '';
-    const productosAMostrar = productos.slice(0, 3);
-    console.log('Productos a mostrar (primeros 3):', productosAMostrar);
+    const productosAMostrar = productos.slice(0, 4);
+    console.log('Productos a mostrar (primeros 4):', productosAMostrar);
     
     productosAMostrar.forEach(producto => {
         const precioFormato = parseFloat(producto.precio).toFixed(2);
         console.log('Renderizando producto:', producto.nombre, 'ID:', producto.id);
-<<<<<<< HEAD
-=======
         
-        // RUTA DE IMAGEN CORRECTA - SOLO UN "../"
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
         html += `
-            <div class="product-card-small">
+            <div class="related-product-card">
                 <img src="../${producto.imagen_principal}" alt="${producto.nombre}" onerror="this.src='../img/placeholder.jpg'">
-                <h4>${producto.nombre}</h4>
-                <p class="price">$${precioFormato}</p>
-                <a href="producto.php?id=${producto.id}" class="btn btn-small">Ver Detalles</a>
+                <div class="related-product-info">
+                    <h4>${producto.nombre}</h4>
+                    <p class="related-product-price">$${precioFormato}</p>
+                    <a href="producto.php?id=${producto.id}" class="related-product-link">Ver Detalles →</a>
+                </div>
             </div>
         `;
     });
@@ -190,27 +192,7 @@ function cargarProductosRelacionados(productos) {
 }
 
 // Agregar al carrito
-function agregarAlCarrito(producto) {
-    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-    const productoEnCarrito = carrito.find(p => p.id == producto.id);
-    
-    if (productoEnCarrito) {
-        productoEnCarrito.cantidad += 1;
-    } else {
-        carrito.push({
-            id: producto.id,
-            nombre: producto.nombre,
-            precio: producto.precio,
-            imagen_principal: producto.imagen_principal,
-            cantidad: 1
-        });
-    }
-    
-    localStorage.setItem('carrito', JSON.stringify(carrito));
-    actualizarContadorCarrito();
-    alert(`✅ ${producto.nombre} agregado al carrito`);
-    window.location.href = 'carrito.php';
-}
+// La función agregarAlCarrito viene de app.js - no duplicar aquí
 
 // Inicializar cuando el DOM esté listo
 console.log('Script producto_detalle.js cargado');
@@ -224,8 +206,4 @@ if (document.readyState === 'loading') {
 } else {
     console.log('DOM ya está listo, ejecutando cargarDetallesProducto()');
     cargarDetallesProducto();
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3

@@ -16,11 +16,7 @@ async function obtenerProductos() {
             throw new Error('Error al obtener productos: ' + response.status);
         }
         const data = await response.json();
-<<<<<<< HEAD
         // La API retorna {success: true, data: [...]} o {success: true, count: ..., data: [...]}
-=======
-        // La API retorna {success: true, data: [...]}
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
         if (data.success && data.data) {
             return Array.isArray(data.data) ? data.data : [];
         }
@@ -145,8 +141,4 @@ function agregarAlCarrito(id) {
 document.addEventListener('DOMContentLoaded', () => {
     inicializarCarrusel();
     inicializarListaProductos();
-<<<<<<< HEAD
 });
-=======
-});
->>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3

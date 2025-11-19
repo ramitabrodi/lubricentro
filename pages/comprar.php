@@ -32,20 +32,19 @@
   </div>
 </header>
 
-<!-- BREADCRUMB -->
-<section class="breadcrumb-section">
-  <div class="container">
-    <div class="breadcrumb">
-      <a href="../index.php">Inicio</a> → <span>Formulario de Compra</span>
-    </div>
+<!-- BREADCRUMB - ELIMINADO -->
+
+<!-- HERO SECTION DEL FORMULARIO -->
+<section class="checkout-hero">
+  <div class="checkout-hero-content">
+    <h2 class="checkout-title">Finalizar Compra</h2>
+    <p class="checkout-subtitle">Completa tus datos para procesar el pedido</p>
   </div>
 </section>
 
 <!-- FORMULARIO -->
 <main class="form-page">
   <div class="container">
-    <h2 class="section-title">Finalizar Compra</h2>
-    <p class="section-subtitle">Completa tus datos para procesar el pedido</p>
     
     <!-- Información del carrito -->
     <div id="info-carrito" class="info-carrito-modern">
@@ -199,5 +198,239 @@
 </footer>
 
 <script src="../JS/app.js"></script>
+<script>
+// Validar nombre
+function validarNombre(nombre) {
+    return /^[a-záéíóúñ\s]+$/i.test(nombre.trim());
+}
+
+// Validar teléfono
+function validarTelefono(telefono) {
+    return /^\d{7,15}$/.test(telefono.replace(/\D/g, ''));
+}
+
+// Validar email
+function validarEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+}
+
+// Actualizar barra de progreso
+function actualizarBarraProgreso() {
+    const form = document.getElementById('purchaseForm');
+    const inputs = form.querySelectorAll('input[required], select[required]');
+    let completados = 0;
+    
+    inputs.forEach(input => {
+        if (input.value.trim() !== '') {
+            completados++;
+        }
+    });
+    
+    const porcentaje = (completados / inputs.length) * 100;
+    const progressBar = document.getElementById('progress-bar-fill');
+    if (progressBar) {
+        progressBar.style.width = porcentaje + '%';
+    }
+}
+
+// Cargar información del carrito
+function cargarInfoCarrito() {
+    const carritoParaCompra = sessionStorage.getItem('carritoParaCompra');
+    const productoParaComprar = sessionStorage.getItem('productoParaComprar');
+    
+    if (carritoParaCompra) {
+        const productos = JSON.parse(carritoParaCompra);
+        const infoCarrito = document.getElementById('info-carrito');
+        
+        let html = '<div class="cart-summary"><h4>📦 Productos en tu pedido:</h4><ul>';
+        let total = 0;
+        
+        productos.forEach(item => {
+            const precio = typeof item.precio === 'string' 
+                ? parseFloat(item.precio.replace(/[^\d]/g, '')) || 0
+                : item.precio || 0;
+            const subtotal = precio * (item.cantidad || 1);
+            total += subtotal;
+            
+            html += `<li>${item.nombre} x${item.cantidad || 1} - $${subtotal.toFixed(2)}</li>`;
+        });
+        
+        html += `</ul><p class="total-price"><strong>Total: $${total.toFixed(2)}</strong></p></div>`;
+        infoCarrito.innerHTML = html;
+        
+        // Bloquear cambios de cantidad
+        const inputCantidad = document.getElementById('cantidad');
+        if (inputCantidad) {
+            inputCantidad.value = '1';
+            inputCantidad.setAttribute('readonly', 'readonly');
+            inputCantidad.setAttribute('title', 'Cantidad desde carrito');
+        }
+    } else if (productoParaComprar) {
+        // Si viene desde "Comprar Ahora" en página de detalles
+        const producto = JSON.parse(productoParaComprar);
+        const infoCarrito = document.getElementById('info-carrito');
+        const precioNumerico = typeof producto.precio === 'string' 
+            ? parseFloat(producto.precio.replace(/[^\d]/g, '')) || 0
+            : producto.precio || 0;
+        
+        const html = `<div class="cart-summary"><h4>📦 Producto a comprar:</h4><ul>
+            <li>${producto.nombre} x1 - $${precioNumerico.toFixed(2)}</li>
+            </ul><p class="total-price"><strong>Total: $${precioNumerico.toFixed(2)}</strong></p></div>`;
+        infoCarrito.innerHTML = html;
+        
+        // Bloquear el selector de producto
+        const selectProducto = document.getElementById('producto');
+        if (selectProducto) {
+            selectProducto.value = producto.nombre;
+            selectProducto.setAttribute('readonly', 'readonly');
+            selectProducto.style.pointerEvents = 'none';
+        }
+        
+        // Bloquear cantidad
+        const inputCantidad = document.getElementById('cantidad');
+        if (inputCantidad) {
+            inputCantidad.value = '1';
+            inputCantidad.setAttribute('readonly', 'readonly');
+            inputCantidad.setAttribute('title', 'Cantidad: 1');
+        }
+    } else {
+        const infoCarrito = document.getElementById('info-carrito');
+        if (infoCarrito) {
+            infoCarrito.style.display = 'none';
+        }
+    }
+}
+
+// Validar formulario en tiempo real
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('purchaseForm');
+    
+    // Cargar información del carrito al iniciar
+    cargarInfoCarrito();
+    
+    if (form) {
+        // Escuchar cambios en inputs para actualizar progreso
+        form.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('change', actualizarBarraProgreso);
+            input.addEventListener('keyup', actualizarBarraProgreso);
+        });
+        
+        // Validar nombre
+        const nombreInput = document.getElementById('nombre');
+        if (nombreInput) {
+            nombreInput.addEventListener('blur', () => {
+                const errorNombre = document.getElementById('error-nombre');
+                if (nombreInput.value && !validarNombre(nombreInput.value)) {
+                    if (errorNombre) errorNombre.style.display = 'block';
+                } else if (errorNombre) {
+                    errorNombre.style.display = 'none';
+                }
+            });
+        }
+        
+        // Validar teléfono
+        const telInput = document.getElementById('telefono');
+        if (telInput) {
+            telInput.addEventListener('blur', () => {
+                const errorTel = document.getElementById('error-telefono');
+                if (telInput.value && !validarTelefono(telInput.value)) {
+                    if (errorTel) errorTel.style.display = 'block';
+                } else if (errorTel) {
+                    errorTel.style.display = 'none';
+                }
+            });
+        }
+        
+        // Validar email
+        const emailInput = document.getElementById('email');
+        if (emailInput) {
+            emailInput.addEventListener('blur', () => {
+                const errorEmail = document.getElementById('error-email');
+                if (emailInput.value && !validarEmail(emailInput.value)) {
+                    if (errorEmail) errorEmail.style.display = 'block';
+                } else if (errorEmail) {
+                    errorEmail.style.display = 'none';
+                }
+            });
+        }
+        
+        // Procesar envío del formulario
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Validar campos requeridos
+            const campos = form.querySelectorAll('input[required], select[required]');
+            let valido = true;
+            
+            campos.forEach(campo => {
+                if (!campo.value.trim()) {
+                    valido = false;
+                }
+            });
+            
+            if (!valido) {
+                alert('Por favor completa todos los campos requeridos');
+                return;
+            }
+            
+            // Validar nombre, teléfono, email
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const email = document.getElementById('email').value;
+            
+            if (!validarNombre(nombre)) {
+                alert('Nombre inválido');
+                return;
+            }
+            if (!validarTelefono(telefono)) {
+                alert('Teléfono inválido');
+                return;
+            }
+            if (!validarEmail(email)) {
+                alert('Email inválido');
+                return;
+            }
+            
+            // Guardar datos de la compra
+            const datosCompra = {
+                nombre: nombre,
+                telefono: telefono,
+                email: email,
+                direccion: document.getElementById('direccion').value,
+                producto: document.getElementById('producto').value,
+                cantidad: document.getElementById('cantidad').value,
+                metodoPago: document.querySelector('input[name="metodoPago"]:checked') ? 
+                    document.querySelector('input[name="metodoPago"]:checked').value : '',
+                fecha: new Date().toLocaleDateString('es-AR'),
+                hora: new Date().toLocaleTimeString('es-AR')
+            };
+            
+            // Guardar compra en localStorage
+            let compras = JSON.parse(localStorage.getItem('compras')) || [];
+            compras.push(datosCompra);
+            localStorage.setItem('compras', JSON.stringify(compras));
+            
+            // LIMPIAR CARRITO
+            localStorage.removeItem('carrito');
+            localStorage.removeItem('carritoParaCompra');
+            sessionStorage.removeItem('carritoParaCompra');
+            sessionStorage.removeItem('productoParaComprar');
+            
+            // ACTUALIZAR CONTADOR GLOBALMENTE
+            carrito = [];
+            actualizarContadorCarrito();
+            
+            // Mostrar mensaje de éxito
+            alert('✅ ¡Compra realizada exitosamente!\n\nNúmero de orden: #' + (Math.random() * 100000).toFixed(0));
+            
+            // Limpiar formulario
+            form.reset();
+            
+            // Scroll al inicio
+            window.scrollTo(0, 0);
+        });
+    }
+});
+</script>
 </body>
 </html>
