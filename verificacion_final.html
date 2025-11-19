@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Verificación Final - Productos Relacionados</title>
+    <style>
+        body { font-family: Arial; max-width: 900px; margin: 40px auto; }
+        .status { padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+        .info { background: #d1ecf1; color: #0c5460; border-left: 4px solid #17a2b8; }
+        iframe { width: 100%; height: 600px; border: 2px solid #ddd; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <h1>✅ Verificación Final del Sistema</h1>
+    
+    <div id="verificacion"></div>
+    
+    <h2>Vista Previa de la Página del Producto</h2>
+    <p>Si los productos relacionados aparecen abajo (no "Cargando..."), ¡el sistema está funcionando!</p>
+    <iframe src="http://localhost/lubricentro/pages/producto.php?id=1"></iframe>
+
+    <script>
+        async function verificarSistema() {
+            const div = document.getElementById('verificacion');
+            
+            async function addStatus(title, success, message) {
+                const status = document.createElement('div');
+                status.className = 'status ' + (success ? 'success' : 'error');
+                status.innerHTML = `<strong>${title}:</strong> ${message}`;
+                div.appendChild(status);
+                return success;
+            }
+
+            try {
+                // Test 1: Verificar API
+                let response = await fetch('../api/productos.php?action=obtener&id=1');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success) {
+                        await addStatus('✓ API Producto', true, `Producto "${data.data.nombre}" cargado correctamente`);
+                    } else {
+                        await addStatus('✗ API Producto', false, 'API no respondió correctamente');
+                    }
+                } else {
+                    await addStatus('✗ API Producto', false, `Error HTTP ${response.status}`);
+                }
+
+                // Test 2: Verificar API Categoría
+                response = await fetch('../api/productos.php?action=categoria&cat=1');
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data.success && data.count > 0) {
+                        await addStatus('✓ API Categoría', true, `${data.count} productos en categoría 1`);
+                    } else {
+                        await addStatus('✗ API Categoría', false, 'Sin productos en categoría');
+                    }
+                } else {
+                    await addStatus('✗ API Categoría', false, `Error HTTP ${response.status}`);
+                }
+
+                // Test 3: Verificar Script JavaScript
+                response = await fetch('../JS/producto_detalle.js');
+                if (response.ok) {
+                    await addStatus('✓ Script JS', true, 'Archivo producto_detalle.js accesible');
+                } else {
+                    await addStatus('✗ Script JS', false, `Error HTTP ${response.status}`);
+                }
+
+                // Test 4: Resumen
+                const info = document.createElement('div');
+                info.className = 'status info';
+                info.innerHTML = '<strong>ℹ️ Información:</strong> Todo debería estar funcionando. Si aún no ves productos relacionados en la vista previa, abre la consola del navegador (F12) para revisar si hay errores en JavaScript.';
+                div.appendChild(info);
+
+            } catch (error) {
+                const status = document.createElement('div');
+                status.className = 'status error';
+                status.innerHTML = `<strong>✗ Error:</strong> ${error.message}`;
+                div.appendChild(status);
+            }
+        }
+
+        window.addEventListener('load', verificarSistema);
+    </script>
+</body>
+</html>

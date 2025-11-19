@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administración de Productos - Lubricentro</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .admin-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .mensaje {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .mensaje.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .mensaje.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .btn-volver {
+            margin-top: 20px;
+            background-color: #007bff;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+        }
+
+        .btn-volver:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <h1>Cargar Nuevo Producto</h1>
+
+        <form id="formProducto" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="nombre">Nombre del Producto:</label>
+                <input type="text" id="nombre" name="nombre" required>
+            </div>
+
+            <div class="form-group">
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" name="precio" step="0.01" required>
+            </div>
+
+            <div class="form-group">
+                <label for="descripcion">Descripción:</label>
+                <textarea id="descripcion" name="descripcion" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="imagen">Imagen del Producto:</label>
+                <input type="file" id="imagen" name="imagen" accept="image/*" required>
+            </div>
+
+            <button type="submit">Cargar Producto</button>
+        </form>
+
+        <div id="mensaje" class="mensaje"></div>
+
+        <a href="../index.php" class="btn-volver">Volver al Inicio</a>
+    </div>
+
+    <script>
+        const form = document.getElementById('formProducto');
+        const mensajeDiv = document.getElementById('mensaje');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch('../JS/api_productos.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    mensajeDiv.classList.remove('error');
+                    mensajeDiv.classList.add('success');
+                    mensajeDiv.textContent = '✓ ' + data.mensaje;
+                    mensajeDiv.style.display = 'block';
+                    form.reset();
+
+                    setTimeout(() => {
+                        mensajeDiv.style.display = 'none';
+                    }, 3000);
+                } else {
+                    mensajeDiv.classList.remove('success');
+                    mensajeDiv.classList.add('error');
+                    mensajeDiv.textContent = '✗ Error: ' + data.error;
+                    mensajeDiv.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                mensajeDiv.classList.remove('success');
+                mensajeDiv.classList.add('error');
+                mensajeDiv.textContent = '✗ Error al conectar con el servidor';
+                mensajeDiv.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

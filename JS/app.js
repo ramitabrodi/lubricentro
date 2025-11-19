@@ -95,7 +95,7 @@ function calcularTotal() {
     }, 0);
 }
 
-// Mostrar carrito (para página carrito.html)
+// Mostrar carrito (para página carrito.php)
 function mostrarCarrito() {
     const container = document.getElementById('cart-container');
     const totalDiv = document.getElementById('cart-total');
@@ -110,7 +110,7 @@ function mostrarCarrito() {
         container.innerHTML = `
             <div class="empty-cart">
                 <p>Tu carrito está vacío</p>
-                <a href="listado_box.html" class="cta-button" style="margin-top: 1rem;">Ver Productos</a>
+                <a href="listado_box.php" class="cta-button" style="margin-top: 1rem;">Ver Productos</a>
             </div>
         `;
         if (totalDiv) totalDiv.style.display = 'none';

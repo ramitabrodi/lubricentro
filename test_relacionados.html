@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Productos Relacionados</title>
+    <style>
+        body { font-family: Arial; max-width: 1200px; margin: 50px auto; background: #f5f5f5; padding: 20px; }
+        .test-section { background: white; padding: 20px; margin: 20px 0; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        pre { background: #f0f0f0; padding: 15px; border-radius: 5px; overflow-x: auto; border-left: 4px solid #007bff; }
+        .success { color: green; font-weight: bold; }
+        .error { color: red; font-weight: bold; }
+        .loading { color: orange; font-weight: bold; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; margin: 5px; }
+        button:hover { background: #0056b3; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .product-card { background: #f9f9f9; padding: 15px; border-radius: 8px; border: 1px solid #ddd; text-align: center; }
+        .product-card img { width: 100%; height: 150px; object-fit: contain; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Test de Productos Relacionados</h1>
+    
+    <div class="test-section">
+        <h2>1. Test del API Directamente</h2>
+        <button onclick="testApiDirecto()">Test API</button>
+        <div id="test-api-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>2. Simular Carga de Producto (ID=1)</h2>
+        <button onclick="simularProductoDetalle(1)">Cargar Producto 1</button>
+        <div id="test-producto-result"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>3. Obtener Productos Relacionados (Categoría 1)</h2>
+        <button onclick="testProductosRelacionados(1, 1)">Obtener Relacionados de Producto 1</button>
+        <div id="test-relacionados-result"></div>
+    </div>
+
+    <script>
+        function obtenerRutaAPI() {
+            return '../api/productos.php';
+        }
+
+        async function testApiDirecto() {
+            const resultDiv = document.getElementById('test-api-result');
+            resultDiv.innerHTML = '<p class="loading">Cargando...</p>';
+            
+            try {
+                const url = obtenerRutaAPI() + '?action=categoria&cat=1';
+                console.log('Llamando a:', url);
+                resultDiv.innerHTML = `<p>URL: ${url}</p>`;
+                
+                const response = await fetch(url);
+                resultDiv.innerHTML += `<p>Status HTTP: ${response.status}</p>`;
+                
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                
+                const data = await response.json();
+                resultDiv.innerHTML += `<p class="success">✓ API respondió correctamente</p>`;
+                resultDiv.innerHTML += `<p>Productos encontrados: ${data.count}</p>`;
+                resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">✗ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function simularProductoDetalle(productoId) {
+            const resultDiv = document.getElementById('test-producto-result');
+            resultDiv.innerHTML = '<p class="loading">Cargando producto...</p>';
+            
+            try {
+                const url = obtenerRutaAPI() + '?action=obtener&id=' + productoId;
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    const producto = data.data;
+                    resultDiv.innerHTML = `
+                        <p class="success">✓ Producto cargado</p>
+                        <pre>${JSON.stringify(producto, null, 2)}</pre>
+                        <p>Categoría ID: <strong>${producto.categoria_id}</strong></p>
+                    `;
+                } else {
+                    resultDiv.innerHTML = '<p class="error">✗ No se pudo cargar el producto</p>';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">✗ Error: ${error.message}</p>`;
+            }
+        }
+
+        async function testProductosRelacionados(categoriaId, productoId) {
+            const resultDiv = document.getElementById('test-relacionados-result');
+            resultDiv.innerHTML = '<p class="loading">Cargando productos relacionados...</p>';
+            
+            try {
+                const url = obtenerRutaAPI() + '?action=categoria&cat=' + parseInt(categoriaId);
+                console.log('Obteniendo de:', url);
+                
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                
+                const data = await response.json();
+                console.log('Respuesta:', data);
+                
+                if (data.success && data.data) {
+                    const relacionados = data.data.filter(p => parseInt(p.id) !== parseInt(productoId));
+                    console.log('Después de filtrar:', relacionados);
+                    
+                    if (relacionados.length === 0) {
+                        resultDiv.innerHTML = '<p class="error">No hay productos relacionados (todos fueron filtrados)</p>';
+                        return;
+                    }
+                    
+                    let html = `<p class="success">✓ ${relacionados.length} productos encontrados</p>`;
+                    html += '<div class="products-grid">';
+                    
+                    relacionados.forEach(p => {
+                        html += `
+                            <div class="product-card">
+                                <img src="../${p.imagen_principal}" alt="${p.nombre}" onerror="this.src='../img/placeholder.jpg'">
+                                <h4>${p.nombre}</h4>
+                                <p>$${parseFloat(p.precio).toFixed(2)}</p>
+                                <p><small>${p.marca}</small></p>
+                            </div>
+                        `;
+                    });
+                    
+                    html += '</div>';
+                    html += `<pre>${JSON.stringify(relacionados, null, 2)}</pre>`;
+                    resultDiv.innerHTML = html;
+                } else {
+                    resultDiv.innerHTML = '<p class="error">✗ API no respondió correctamente</p>';
+                    resultDiv.innerHTML += `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `<p class="error">✗ Error: ${error.message}</p>`;
+            }
+        }
+
+        // Ejecutar test al cargar la página
+        window.addEventListener('load', function() {
+            console.log('Página cargada, ejecutando pruebas...');
+            testApiDirecto();
+        });
+    </script>
+</body>
+</html>
