@@ -77,7 +77,11 @@
           </div>
           
           <div class="cart-actions-summary" id="cart-actions">
+<<<<<<< HEAD
             <a href="comprar.php" class="btn btn-primary btn-block" id="finalizar-compra">
+=======
+            <a href="checkout.php" class="btn btn-primary btn-block" id="finalizar-compra">
+>>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
               Finalizar Compra
             </a>
             <button id="clear-cart" class="btn btn-outline-danger btn-block">

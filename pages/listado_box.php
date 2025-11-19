@@ -9,6 +9,10 @@
 </head>
 <body>
 
+<<<<<<< HEAD
+=======
+<a href="producto.php?id=${producto.id}">Ver Detalles</a>
+>>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
 <!-- HEADER -->
 <header>
   <div class="nav-container">

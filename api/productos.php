@@ -1,7 +1,11 @@
 <?php
 // ============================================
+<<<<<<< HEAD
 // ARCHIVO: api/productos.php
 // Guárdalo en: C:\xampp\htdocs\lubricentro\api\productos.php
+=======
+// ARCHIVO: api/productos.php - VERSIÓN CORREGIDA
+>>>>>>> b114ffd41ff0aacf59517d6d4649fd7f6c6b3ac3
 // ============================================
 
 header("Access-Control-Allow-Origin: *");
