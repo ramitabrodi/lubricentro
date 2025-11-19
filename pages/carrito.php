@@ -20,11 +20,10 @@
     </button>
     <nav>
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="../index.html" class="nav-link">Inicio</a></li>
-        <li><a href="listado_tabla.html" class="nav-link">Productos</a></li>
-        <li><a href="listado_box.html" class="nav-link">Catálogo</a></li>
-        <li><a href="comprar.html" class="nav-link">Comprar</a></li>
-        <li><a href="carrito.html" class="nav-link cart-link active">
+        <li><a href="../index.php" class="nav-link">Inicio</a></li>
+        <li><a href="listado_box.php" class="nav-link">Catálogo</a></li>
+        <li><a href="comprar.php" class="nav-link">Comprar</a></li>
+        <li><a href="carrito.php" class="nav-link cart-link active">
           <span class="cart-icon">🛒</span>
           <span class="cart-badge" id="cart-count">0</span>
         </a></li>
@@ -37,7 +36,7 @@
 <section class="breadcrumb-section">
   <div class="container">
     <div class="breadcrumb">
-      <a href="../index.html">Inicio</a> → <span>Carrito de Compras</span>
+      <a href="../index.php">Inicio</a> → <span>Carrito de Compras</span>
     </div>
   </div>
 </section>
@@ -55,7 +54,7 @@
             <div class="empty-cart-icon">🛒</div>
             <h3>Tu carrito está vacío</h3>
             <p>Agrega productos para comenzar tu compra</p>
-            <a href="listado_box.html" class="btn btn-primary">Ver Productos</a>
+            <a href="listado_box.php" class="btn btn-primary">Ver Productos</a>
           </div>
         </div>
       </div>
@@ -78,7 +77,7 @@
           </div>
           
           <div class="cart-actions-summary" id="cart-actions">
-            <a href="comprar.html" class="btn btn-primary btn-block" id="finalizar-compra">
+            <a href="comprar.php" class="btn btn-primary btn-block" id="finalizar-compra">
               Finalizar Compra
             </a>
             <button id="clear-cart" class="btn btn-outline-danger btn-block">
@@ -105,7 +104,7 @@
     </div>
 
     <div class="continue-shopping">
-      <a href="listado_box.html" class="link-continue">← Continuar Comprando</a>
+      <a href="listado_box.php" class="link-continue">← Continuar Comprando</a>
     </div>
   </div>
 </main>
@@ -122,9 +121,9 @@
       <div class="footer-section">
         <h4>Enlaces Rápidos</h4>
         <ul class="footer-links">
-          <li><a href="../index.html">Inicio</a></li>
-          <li><a href="listado_box.html">Productos</a></li>
-          <li><a href="comprar.html">Comprar</a></li>
+          <li><a href="../index.php">Inicio</a></li>
+          <li><a href="listado_box.php">Productos</a></li>
+          <li><a href="comprar.php">Comprar</a></li>
         </ul>
       </div>
       
@@ -144,6 +143,6 @@
   </div>
 </footer>
 
-<script src="../js/app.js"></script>
+<script src="../JS/app.js"></script>
 </body>
 </html>

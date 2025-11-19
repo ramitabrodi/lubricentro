@@ -20,11 +20,10 @@
     </button>
     <nav>
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="../index.html" class="nav-link">Inicio</a></li>
-        <li><a href="listado_tabla.html" class="nav-link">Productos</a></li>
-        <li><a href="listado_box.html" class="nav-link">Catálogo</a></li>
-        <li><a href="comprar.html" class="nav-link active">Comprar</a></li>
-        <li><a href="carrito.html" class="nav-link cart-link">
+        <li><a href="../index.php" class="nav-link">Inicio</a></li>
+        <li><a href="listado_box.php" class="nav-link">Catálogo</a></li>
+        <li><a href="comprar.php" class="nav-link active">Comprar</a></li>
+        <li><a href="carrito.php" class="nav-link cart-link">
           <span class="cart-icon">🛒</span>
           <span class="cart-badge" id="cart-count">0</span>
         </a></li>
@@ -37,7 +36,7 @@
 <section class="breadcrumb-section">
   <div class="container">
     <div class="breadcrumb">
-      <a href="../index.html">Inicio</a> → <span>Formulario de Compra</span>
+      <a href="../index.php">Inicio</a> → <span>Formulario de Compra</span>
     </div>
   </div>
 </section>
@@ -160,7 +159,7 @@
     </form>
 
     <div class="back-link">
-      <a href="carrito.html" class="link-back">← Volver al Carrito</a>
+      <a href="carrito.php" class="link-back">← Volver al Carrito</a>
     </div>
   </div>
 </main>
@@ -177,9 +176,9 @@
       <div class="footer-section">
         <h4>Enlaces Rápidos</h4>
         <ul class="footer-links">
-          <li><a href="../index.html">Inicio</a></li>
-          <li><a href="listado_box.html">Productos</a></li>
-          <li><a href="comprar.html">Comprar</a></li>
+          <li><a href="../index.php">Inicio</a></li>
+          <li><a href="listado_box.php">Productos</a></li>
+          <li><a href="comprar.php">Comprar</a></li>
         </ul>
       </div>
       
@@ -199,6 +198,6 @@
   </div>
 </footer>
 
-<script src="../js/app.js"></script>
+<script src="../JS/app.js"></script>
 </body>
 </html>

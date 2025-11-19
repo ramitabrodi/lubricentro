@@ -143,37 +143,59 @@ function mostrarCarrito() {
     }
 }
 
-// Función para actualizar la barra de progreso
+// Función para actualizar la barra de progreso - CORREGIDA
 function actualizarBarraProgreso() {
     const form = document.getElementById('purchaseForm');
     const progressFill = document.getElementById('progress-bar-fill');
     
     if (!form || !progressFill) return;
     
-    const inputs = form.querySelectorAll('input, select');
-    let camposCompletados = 0;
-    let camposTotales = 0;
+    const inputs = form.querySelectorAll('input:not([type="radio"]), select, textarea');
+    const radioGroups = {};
     
+    // Recopilar grupos de radio buttons
+    form.querySelectorAll('input[type="radio"]').forEach(radio => {
+        if (!radioGroups[radio.name]) {
+            radioGroups[radio.name] = radio.name;
+        }
+    });
+    
+    let camposCompletados = 0;
+    let camposTotales = inputs.length + Object.keys(radioGroups).length;
+    
+    // Contar inputs normales completados
     inputs.forEach(input => {
-        if (input.type === 'radio') {
-            const name = input.name;
-            if (!document.querySelector(`input[name="${name}"]:checked`)) {
-                camposTotales++;
-            } else {
-                camposTotales++;
+        if (input.type === 'select-one') {
+            if (input.value && input.value !== '') {
                 camposCompletados++;
             }
-            return;
-        } else if (input.type !== 'radio') {
-            camposTotales++;
+        } else {
             if (input.value.trim() !== '') {
                 camposCompletados++;
             }
         }
     });
     
+    // Contar grupos de radio completados
+    Object.keys(radioGroups).forEach(groupName => {
+        if (document.querySelector(`input[name="${groupName}"]:checked`)) {
+            camposCompletados++;
+        }
+    });
+    
     const porcentaje = camposTotales > 0 ? (camposCompletados / camposTotales) * 100 : 0;
     progressFill.style.width = porcentaje + '%';
+    
+    // Cambiar color según progreso
+    if (porcentaje < 33) {
+        progressFill.style.background = '#e74c3c';
+    } else if (porcentaje < 66) {
+        progressFill.style.background = '#f39c12';
+    } else if (porcentaje < 100) {
+        progressFill.style.background = '#3498db';
+    } else {
+        progressFill.style.background = '#2ecc71';
+    }
 }
 
 // Función para preparar la compra desde el carrito
@@ -316,6 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const metodoPago = document.querySelector('input[name="metodoPago"]:checked');
             const producto = document.getElementById('producto');
             
+            // Validaciones...
             const errorNombre = document.getElementById('error-nombre');
             if (nombre && !validarNombre(nombre.value.trim())) {
                 if (errorNombre) errorNombre.style.display = 'block';
@@ -360,29 +383,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 return;
             }
             
-            const productoSeleccionado = producto.value;
-            const cantidad = document.getElementById('cantidad').value;
-            
-            const esCompraDesdeCarrito = sessionStorage.getItem('compraDesdeCarrito') === 'true';
+            // AQUÍ ESTÁ LA CORRECCIÓN PRINCIPAL
+            const carritoParaCompra = sessionStorage.getItem('carritoParaCompra');
+            const esCompraDesdeCarrito = carritoParaCompra !== null;
             
             if (esCompraDesdeCarrito) {
+                // Si vino desde el carrito, limpiar SOLO los productos que se compraron
+                const productosComprados = JSON.parse(carritoParaCompra);
+                
+                // Vaciar el carrito completo si se compraron todos los productos
                 carrito = [];
-                localStorage.removeItem("carrito");
+                localStorage.setItem("carrito", JSON.stringify(carrito));
                 actualizarContadorCarrito();
+                
+                // Limpiar sessionStorage
+                sessionStorage.removeItem('carritoParaCompra');
+                sessionStorage.removeItem('compraDesdeCarrito');
                 
                 mostrarNotificacion('✅ Compra finalizada correctamente. ¡Gracias por tu pedido!');
             } else {
-                const productoCarrito = {
-                    id: 'PED' + Date.now(),
-                    nombre: `${productoSeleccionado} (x${cantidad}) - Pedido personalizado`,
-                    precio: '0',
-                    cantidad: parseInt(cantidad)
-                };
-                
-                agregarAlCarrito(productoCarrito);
-                mostrarNotificacion('✅ Pedido enviado correctamente');
+                // Si es una compra directa (NO desde carrito), no agregar nada al carrito
+                mostrarNotificacion('✅ Pedido enviado correctamente. Nos contactaremos pronto.');
             }
             
+            // Resetear formulario
             formCompra.reset();
             actualizarBarraProgreso();
             
@@ -396,6 +420,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (infoCarrito) {
                 infoCarrito.style.display = 'none';
             }
+            
+            // Redirigir después de 2 segundos
+            setTimeout(() => {
+                window.location.href = '../index.html';
+            }, 2000);
         });
     }
 });
@@ -413,7 +442,6 @@ const navMenu = document.getElementById("nav-menu");
 
 if (menuToggle && navMenu) {
     menuToggle.addEventListener("click", () => {
-    navMenu.classList.toggle("show-menu");
+        navMenu.classList.toggle("show-menu");
     });
 }
-

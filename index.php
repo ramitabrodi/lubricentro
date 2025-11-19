@@ -6,6 +6,7 @@
   <link rel="icon" type="image/x-icon" href="img/favicon.ico">
   <title>Lubricentro R/18 - Servicio Automotriz</title>
   <link rel="stylesheet" href="css/styles.css" />
+  <script src="JS/productos.js"></script>
   
   <!-- Slick Carousel CSS -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
@@ -117,11 +118,10 @@
     </button>
     <nav>
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="index.html" class="nav-link active">Inicio</a></li>
-        <li><a href="pages/listado_tabla.html" class="nav-link">Productos</a></li>
-        <li><a href="pages/listado_box.html" class="nav-link">Catálogo</a></li>
-        <li><a href="pages/comprar.html" class="nav-link">Comprar</a></li>
-        <li><a href="pages/carrito.html" class="nav-link cart-link">
+        <li><a href="index.php" class="nav-link active">Inicio</a></li>
+        <li><a href="pages/listado_box.php" class="nav-link">Catálogo</a></li>
+        <li><a href="pages/comprar.php" class="nav-link">Comprar</a></li>
+        <li><a href="pages/carrito.php" class="nav-link cart-link">
           <span class="cart-icon">🛒</span>
           <span class="cart-badge" id="cart-count">0</span>
         </a></li>
@@ -139,11 +139,11 @@
       Servicio completo, rápido y confiable para mantener tu vehículo en perfecto estado
     </p>
     <div class="hero-buttons">
-      <a href="pages/listado_box.html" class="btn btn-primary">
+      <a href="pages/listado_box.php" class="btn btn-primary">
         <span>Ver Productos</span>
         <span class="btn-arrow">→</span>
       </a>
-      <a href="pages/comprar.html" class="btn btn-secondary">Comprar Ahora</a>
+      <a href="pages/comprar.php" class="btn btn-secondary">Comprar Ahora</a>
     </div>
   </div>
 </section>
@@ -299,7 +299,7 @@
     </div>
     
     <div class="text-center" style="margin-top: 4rem;">
-      <a href="pages/listado_box.html" class="btn btn-outline-dark">Ver Todos los Productos</a>
+      <a href="pages/listado_box.php" class="btn btn-outline-dark">Ver Todos los Productos</a>
     </div>
   </div>
 </section>
@@ -443,6 +443,29 @@
   </div>
 </section>
 
+<!-- SECCIÓN CARRUSEL DE PRODUCTOS -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Productos Destacados</h2>
+    <div id="carrusel-productos" style="min-height: 400px; display: flex; align-items: center; justify-content: center; color: #999;">
+      <p>Cargando productos...</p>
+    </div>
+  </div>
+</section>
+
+<!-- SECCIÓN LISTA DE PRODUCTOS -->
+<section class="section" style="background-color: #f9f9f9;">
+  <div class="container">
+    <h2 class="section-title">Catálogo de Productos</h2>
+    <div id="lista-productos" style="min-height: 300px; display: flex; align-items: center; justify-content: center; color: #999;">
+      <p>Cargando catálogo...</p>
+    </div>
+    <div style="text-align: center; margin-top: 40px;">
+      <a href="pages/admin_productos.php" class="btn" style="display: inline-block; background-color: #4CAF50; color: white; padding: 12px 30px; text-decoration: none; border-radius: 4px;">Agregar Producto</a>
+    </div>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer>
   <div class="container">
@@ -455,9 +478,9 @@
       <div class="footer-section">
         <h4>Enlaces Rápidos</h4>
         <ul class="footer-links">
-          <li><a href="index.html">Inicio</a></li>
-          <li><a href="pages/listado_box.html">Productos</a></li>
-          <li><a href="pages/comprar.html">Comprar</a></li>
+          <li><a href="index.php">Inicio</a></li>
+          <li><a href="pages/listado_box.php">Productos</a></li>
+          <li><a href="pages/comprar.php">Comprar</a></li>
         </ul>
       </div>
       
@@ -549,5 +572,13 @@ $(document).ready(function(){
 });
 </script>
 
+<!-- Inicializar productos al cargar la página -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    console.log('Inicializando productos...');
+    inicializarCarrusel();
+    inicializarListaProductos();
+  });
+</script>
 </body>
 </html>

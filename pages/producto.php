@@ -7,52 +7,14 @@
   <title>Detalle del Producto - Lubricentro R/18</title>
   <link rel="stylesheet" href="../css/styles.css">
   
-  <!-- Slick Carousel CSS -->
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.css"/>
-  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick-theme.min.css"/>
-  
   <style>
-    /* Estilos para galería de imágenes */
     .product-gallery {
       margin-bottom: 1rem;
     }
     
-    .product-gallery .slick-slide img {
+    .product-gallery img {
       width: 100%;
       border-radius: 8px;
-    }
-    
-    .product-thumbnails {
-      margin-top: 1rem;
-    }
-    
-    .product-thumbnails .slick-slide {
-      padding: 0 5px;
-      cursor: pointer;
-      opacity: 0.6;
-      transition: opacity 0.3s;
-    }
-    
-    .product-thumbnails .slick-slide.slick-current {
-      opacity: 1;
-    }
-    
-    .product-thumbnails .slick-slide:hover {
-      opacity: 1;
-    }
-    
-    .product-thumbnails .slick-slide img {
-      border: 2px solid transparent;
-      border-radius: 8px;
-      transition: border-color 0.3s;
-    }
-    
-    .product-thumbnails .slick-slide.slick-current img {
-      border-color: #1A3A5F;
-    }
-    
-    .slick-prev:before, .slick-next:before {
-      color: #1A3A5F;
     }
   </style>
 </head>
@@ -69,11 +31,11 @@
     </button>
     <nav>
       <ul class="nav-menu" id="nav-menu">
-        <li><a href="../index.html" class="nav-link">Inicio</a></li>
-        <li><a href="listado_tabla.html" class="nav-link">Productos</a></li>
-        <li><a href="listado_box.html" class="nav-link">Catálogo</a></li>
-        <li><a href="comprar.html" class="nav-link">Comprar</a></li>
-        <li><a href="carrito.html" class="nav-link cart-link">
+        <li><a href="../index.php" class="nav-link">Inicio</a></li>
+        <li><a href="listado_tabla.php" class="nav-link">Productos</a></li>
+        <li><a href="listado_box.php" class="nav-link">Catálogo</a></li>
+        <li><a href="comprar.php" class="nav-link">Comprar</a></li>
+        <li><a href="carrito.php" class="nav-link cart-link">
           <span class="cart-icon">🛒</span>
           <span class="cart-badge" id="cart-count">0</span>
         </a></li>
@@ -86,9 +48,9 @@
 <section class="breadcrumb-section">
   <div class="container">
     <div class="breadcrumb">
-      <a href="../index.html">Inicio</a> → 
-      <a href="listado_box.html">Productos</a> → 
-      <span id="breadcrumb-nombre">Producto</span>
+      <a href="../index.php">Inicio</a> → 
+      <a href="listado_box.php">Productos</a> → 
+      <span id="breadcrumb-nombre">Cargando...</span>
     </div>
   </div>
 </section>
@@ -98,31 +60,23 @@
   <div class="container">
     <div class="product-detail-grid">
       
-      <!-- Galería de imágenes con Slick -->
+      <!-- Galería de imágenes -->
       <div class="product-image-section">
-        <div class="product-image-container">
-          <!-- Carrusel principal -->
-          <div class="product-gallery" id="product-gallery">
-            <!-- Las imágenes se cargarán dinámicamente -->
-          </div>
-          
-          <!-- Miniaturas -->
-          <div class="product-thumbnails" id="product-thumbnails">
-            <!-- Las miniaturas se cargarán dinámicamente -->
-          </div>
+        <div class="product-gallery" id="product-gallery">
+          <p>Cargando imagen...</p>
         </div>
       </div>
 
       <!-- Información del producto -->
       <div class="product-info-section">
         <p id="codigo-producto" class="product-code"></p>
-        <h1 id="nombre-producto" class="product-title"></h1>
+        <h1 id="nombre-producto" class="product-title">Cargando producto...</h1>
         
         <div class="product-rating">
           ⭐⭐⭐⭐⭐ <span class="rating-count">(128 valoraciones)</span>
         </div>
 
-        <p class="product-price-large" id="precio-producto"></p>
+        <p class="product-price-large" id="precio-producto">$0.00</p>
 
         <p id="descripcion-producto" class="product-description"></p>
 
@@ -130,7 +84,7 @@
           <button class="btn btn-primary btn-large" id="btn-agregar">
             <span>🛒</span> Agregar al Carrito
           </button>
-          <a href="comprar.html" class="btn btn-outline-dark btn-large">
+          <a href="comprar.php" class="btn btn-outline-dark btn-large">
             Comprar Ahora
           </a>
         </div>
@@ -162,6 +116,48 @@
       <h2 class="section-title">Productos Relacionados</h2>
       <p class="section-subtitle">También te puede interesar</p>
       
-      <div class="products-grid-small">
-        <div class="product-card-small">
-          <img src="../img/aceite_semi.jpg" alt="Aceite
+      <div class="products-grid-small" id="productos-relacionados">
+        <p>Cargando productos relacionados...</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>🔧 Lubricentro R/18</h3>
+        <p>Tu aliado en el mantenimiento automotriz desde 2010</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Enlaces Rápidos</h4>
+        <ul class="footer-links">
+          <li><a href="../index.php">Inicio</a></li>
+          <li><a href="listado_box.php">Productos</a></li>
+          <li><a href="comprar.php">Comprar</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Contacto</h4>
+        <ul class="footer-links">
+          <li>Tel: (011) 4567-8900</li>
+          <li>info@lubricentror18.com</li>
+          <li>Av. Principal 123, Ciudad</li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2025 Lubricentro R/18. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="../JS/producto_detalle.js"></script>
+
+</body>
+</html>
